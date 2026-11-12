@@ -5,8 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="СизовДима" Height="450" Width="800" MinHeight="450" MinWidth="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="199*"/>
+            <ColumnDefinition Width="601*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+        <Button Content="Шифрование файла" Margin="20,5,20,5" Grid.Row="0" Click="buttonEncryptFile"/>
+        <Button Content="Расшифровка файла" Margin="20,5,20,5" Grid.Row="1" Click="buttonDecryptFile"/>
+        <Button Content="Создание ключей" Margin="20,5,20,5" Grid.Row="2" Click="buttonCreateAsmKeys"/>
+        <Button Content="Экспорт открытого ключа" Margin="20,5,7,5" Grid.Row="3" Click="buttonExportPublicKey"/>
+        <Button Content="Импорт открытого ключа" Margin="20,5,20,5" Grid.Row="4" Click="buttonImportPublicKey"/>
+        <Button Content="Получение закрытого ключа" Margin="20,5,10,5" Grid.Row="5" Click="buttonGetPrivateKey"/>
+        <Label Content="Label" Grid.Column="1" Margin="106,5,360,10" Grid.Row="2" x:Name="label1"/>
+
 
     </Grid>
 </Window>
