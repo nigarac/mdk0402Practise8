@@ -1,6 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Windows;
+using System.Xml;
+using Microsoft.Win32;
+
 namespace WpfApp1
 {
     /// <summary>
@@ -8,6 +12,9 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const string KeyName = "CryptoWpf.Practice12";
+        private RSACryptoServiceProvider rsa;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -28,12 +35,12 @@ namespace WpfApp1
         const string PubKeyFile = @"c:\encrypt\rsaPublicKey.txt";
 
         // Переменная для пары значений закрытого/открытого ключа
-        const string KeyName = "Key01";
+        const string KeyName2 = "Key01";
 
         private void buttonCreateAsmKeys(object sender, RoutedEventArgs e)
         {
             // Сохраняет пару ключей в контейнере ключей.
-            _cspp.KeyContainerName = KeyName;
+            _cspp.KeyContainerName = KeyName2;
             _rsa = new RSACryptoServiceProvider(_cspp)
             {
                 PersistKeyInCsp = true
@@ -113,7 +120,7 @@ namespace WpfApp1
                 }
             }
         }
-
+        OpenFileDialog openFileDialog = new OpenFileDialog();
         private void buttonEncryptFile(object sender, RoutedEventArgs e)
         {
             if (_rsa is null)
@@ -123,10 +130,10 @@ namespace WpfApp1
             else
             {
                 // Отобразится диалоговое окно для выбора файла для шифрования.
-                _encryptOpenFileDialog.InitialDirectory = SrcFolder;
-                if (_encryptOpenFileDialog.ShowDialog() == DialogResult.OK)
+                openFileDialog.InitialDirectory = SrcFolder;
+                if (openFileDialog.ShowDialog(this) == true)
                 {
-                    string fName = _encryptOpenFileDialog.FileName;
+                    string fName = openFileDialog.FileName;
                     if (fName != null)
                     {
                         // Имя файла без указания пути.
@@ -139,6 +146,23 @@ namespace WpfApp1
 
         private void buttonDecryptFile(object sender, RoutedEventArgs e)
         {
+            if (_rsa is null)
+            {
+                MessageBox.Show("Key not set.");
+            }
+            else
+            {
+                // Display a dialog box to select the encrypted file.
+                _decryptOpenFileDialog.InitialDirectory = EncrFolder;
+                if (_decryptOpenFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string fName = _decryptOpenFileDialog.FileName;
+                    if (fName != null)
+                    {
+                        DecryptFile(new FileInfo(fName));
+                    }
+                }
+            }
 
         }
     }
